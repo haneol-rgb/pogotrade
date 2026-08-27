@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>GO Trade — 포켓몬GO 교환 커뮤니티</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="wrap nav">
+
+    <div class="logo">
+      GO <span>TRADE</span>
+    </div>
+
+    <div class="navLinks">
+      <a href="#trades">교환 목록</a>
+      <button id="myListBtn">내 교환 등록</button>
+    </div>
+
+  </div>
+</header>
+
+
+<main class="wrap">
+
+  <section class="hero">
+
+    <div>
+
+      <div class="eyebrow">
+        POKÉMON GO TRADE COMMUNITY
+      </div>
+
+      <h1>
+        원하는 포켓몬을 찾고<br>
+        교환할 트레이너를 만나세요.
+      </h1>
+
+      <p>
+        교환 목록을 등록하면 이곳에 표시됩니다.
+      </p>
+
+    </div>
+
+    <button class="cta" id="heroBtn">
+      내 교환 등록하기 →
+    </button>
+
+  </section>
+
+
+  <!-- 검색 -->
+  <section class="searchBox">
+
+    <div class="searchRow">
+
+      <input
+        id="search"
+        placeholder="포켓몬 이름으로 검색"
+      >
+
+      <select id="mode">
+
+        <option value="all">
+          전체 목록
+        </option>
+
+        <option value="looking">
+          찾는 포켓몬
+        </option>
+
+        <option value="offering">
+          제공 포켓몬
+        </option>
+
+      </select>
+
+      <button id="reset">
+        초기화
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- 교환 목록 -->
+  <section id="trades">
+
+    <div class="titleRow">
+
+      <h2>
+        교환 목록
+      </h2>
+
+      <span id="count"></span>
+
+    </div>
+
+    <div id="cards"></div>
+
+  </section>
+
+</main>
+
+
+<!-- ========================= -->
+<!-- 교환 등록 모달 -->
+<!-- ========================= -->
+
+<div class="modal hidden" id="modal">
+
+  <div class="dialog">
+
+    <button
+      class="x"
+      id="close"
+      type="button"
+    >
+      ×
+    </button>
+
+
+    <h2>
+      내 교환 목록 등록
+    </h2>
+
+    <p class="muted">
+      포켓몬 이름을 입력한 뒤 원하는 포켓몬을 선택해주세요.
+    </p>
+
+
+    <!-- 트레이너 이름 -->
+    <label>
+
+      트레이너 이름
+
+      <input
+        id="name"
+        placeholder="예: 윌로우 박사"
+      >
+
+    </label>
+
+
+    <!-- ========================= -->
+    <!-- 찾는 포켓몬 -->
+    <!-- ========================= -->
+
+    <div class="pokemonSection">
+
+      <label>
+        찾는 포켓몬
+      </label>
+
+      <input
+        id="lookingSearch"
+        class="pokemonSearch"
+        placeholder="예: 자시안"
+        autocomplete="off"
+      >
+
+      <div
+        id="lookingChoices"
+        class="pokemonChoices"
+      ></div>
+
+
+      <div
+        id="lookingList"
+        class="selectedPokemonList"
+      ></div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- 제공 포켓몬 -->
+    <!-- ========================= -->
+
+    <div class="pokemonSection">
+
+      <label>
+        제공 포켓몬
+      </label>
+
+      <input
+        id="offeringSearch"
+        class="pokemonSearch"
+        placeholder="예: 루카리오"
+        autocomplete="off"
+      >
+
+      <div
+        id="offeringChoices"
+        class="pokemonChoices"
+      ></div>
+
+
+      <div
+        id="offeringList"
+        class="selectedPokemonList"
+      ></div>
+
+    </div>
+
+
+    <!-- 등록 -->
+    <button
+      class="save"
+      id="save"
+      type="button"
+    >
+      등록하기
+    </button>
+
+  </div>
+
+</div>
+
+
+<script src="포켓몬 전국도감.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>

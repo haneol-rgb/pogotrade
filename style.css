@@ -1,0 +1,536 @@
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#182235;font-family:Arial,'Noto Sans KR',sans-serif}button,input,select{font:inherit}header{height:66px;background:#fff;border-bottom:1px solid #e7eaf0;position:sticky;top:0;z-index:5}.wrap{width:min(1080px,calc(100% - 32px));margin:auto}.nav{height:100%;display:flex;align-items:center;justify-content:space-between}.logo{font-weight:900;font-size:21px;letter-spacing:-.5px}.logo span{font-weight:500}.navLinks{display:flex;align-items:center;gap:20px}.navLinks a{color:#536071;text-decoration:none;font-size:14px}.navLinks button{border:0;background:none;cursor:pointer;color:#2563eb;font-weight:700}.hero{margin:28px 0 18px;padding:42px;border-radius:22px;background:#1d2738;color:white;display:flex;justify-content:space-between;align-items:end;gap:30px}.eyebrow{font-size:11px;letter-spacing:1.5px;color:#9fb5d7;font-weight:800;margin-bottom:13px}.hero h1{font-size:34px;line-height:1.25;letter-spacing:-1.5px;margin:0 0 13px}.hero p{color:#cbd5e1;margin:0}.cta{white-space:nowrap;border:0;border-radius:11px;background:#3b82f6;color:white;padding:13px 17px;font-weight:800;cursor:pointer}.searchBox{background:#fff;border:1px solid #e5e8ee;border-radius:16px;padding:14px;margin-bottom:28px}.searchRow{display:grid;grid-template-columns:1fr 190px 80px;gap:9px}.searchRow input,.searchRow select{height:44px;border:1px solid #d9dee7;border-radius:9px;padding:0 12px;background:#fff;outline:none}.searchRow button{border:1px solid #d9dee7;background:#fff;border-radius:9px;cursor:pointer}.titleRow{display:flex;align-items:center;gap:10px;margin-bottom:13px}.titleRow h2{font-size:20px;margin:0}.titleRow span{font-size:13px;color:#7b8492}.empty{background:#fff;border:1px dashed #cbd3df;border-radius:15px;padding:58px 20px;text-align:center;color:#7b8492}.empty strong{display:block;color:#4d5868;font-size:16px;margin-bottom:7px}.empty button{margin-top:15px;border:0;background:#2563eb;color:#fff;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding-bottom:60px}.card{background:#fff;border:1px solid #e4e8ef;border-radius:15px;padding:17px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.name{font-weight:850}.label{font-size:11px;color:#7c8796;margin:9px 0 6px}.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{padding:6px 9px;border-radius:8px;background:#edf4ff;color:#285ba8;font-size:13px}.card .request{margin-top:14px;width:100%;padding:9px;border-radius:9px;border:1px solid #d9dee7;background:#fff;cursor:pointer}.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;padding:18px;z-index:10}.hidden{display:none}.dialog{position:relative;background:#fff;width:min(470px,100%);border-radius:18px;padding:25px}.dialog h2{margin:0 0 5px}.muted{color:#7b8492;font-size:13px;margin:0 0 18px}.x{position:absolute;right:14px;top:10px;border:0;background:none;font-size:28px;color:#77808e;cursor:pointer}.dialog label{display:block;font-size:13px;font-weight:700;margin:13px 0}.dialog input{display:block;width:100%;height:43px;margin-top:7px;border:1px solid #d9dee7;border-radius:9px;padding:0 11px}.save{width:100%;border:0;background:#2563eb;color:#fff;padding:12px;border-radius:9px;font-weight:800;cursor:pointer;margin-top:8px}@media(max-width:720px){.hero{display:block;padding:27px}.hero h1{font-size:27px}.cta{margin-top:20px}.searchRow{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.navLinks a{display:none}}
+.pokemonPreview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pokemonPreviewItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border: 1px solid #e0e5ec;
+  border-radius: 9px;
+  background: #f8fafc;
+  font-size: 12px;
+}
+
+.pokemonPreviewItem img {
+  width: 50px;
+  height: 50px;
+  image-rendering: pixelated;
+}
+.pokemonChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pokemonChip img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+/* 교환 카드 버튼 영역 */
+.cardButtons {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* 교환 신청 버튼 */
+.cardButtons .request {
+  flex: 1;
+}
+
+/* 삭제 버튼 */
+.cardButtons .deleteTrade {
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: white;
+  color: #d33;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* 삭제 버튼에 마우스를 올렸을 때 */
+.cardButtons .deleteTrade:hover {
+  background: #fff5f5;
+  border-color: #d33;
+}
+/* =========================================
+   포켓몬 선택 영역
+   ========================================= */
+
+.pokemonSection {
+  margin-top: 20px;
+}
+
+.pokemonSection > label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+
+/* 포켓몬 선택창 + 조건 + 추가 버튼 */
+
+.pokemonSelectRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pokemonSelectRow select {
+  flex: 1;
+  min-width: 0;
+}
+
+.pokemonSelectRow button {
+  flex-shrink: 0;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #111;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pokemonSelectRow button:hover {
+  opacity: 0.85;
+}
+
+
+/* =========================================
+   선택된 포켓몬 목록
+   ========================================= */
+
+.selectedPokemonList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+
+/* 선택된 포켓몬 하나 */
+
+.selectedPokemon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 6px 10px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+
+  background: #fafafa;
+}
+
+
+/* 포켓몬 이미지 */
+
+.selectedPokemon img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+
+/* 포켓몬 이름 */
+
+.selectedPokemonName {
+  font-weight: 600;
+}
+
+
+/* 조건 */
+
+.selectedPokemonCondition {
+  font-size: 13px;
+  color: #666;
+}
+
+
+/* 선택된 포켓몬 삭제 버튼 */
+
+.removePokemon {
+  border: 0;
+  background: transparent;
+  color: #999;
+
+  font-size: 18px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  padding: 2px 4px;
+}
+
+.removePokemon:hover {
+  color: #d33;
+}
+
+
+/* =========================================
+   교환 카드 버튼
+   ========================================= */
+
+.cardButtons {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.cardButtons .request {
+  flex: 1;
+}
+
+
+/* 삭제 버튼 */
+
+.cardButtons .deleteTrade {
+  padding: 10px 16px;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  background: white;
+  color: #d33;
+
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cardButtons .deleteTrade:hover {
+  background: #fff5f5;
+  border-color: #d33;
+}
+
+
+/* =========================================
+   교환 목록의 포켓몬 이미지
+   ========================================= */
+
+.pokemonChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pokemonChip img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+
+/* =========================================
+   이로치 / 다이맥스 표시
+   ========================================= */
+
+.conditionBadge {
+  display: inline-flex;
+  align-items: center;
+
+  margin-left: 4px;
+  padding: 2px 6px;
+
+  border-radius: 6px;
+
+  background: #f3f3f3;
+
+  font-size: 11px;
+  color: #555;
+}
+
+
+/* 선택된 포켓몬이 많아졌을 때 */
+
+@media (max-width: 600px) {
+
+  .pokemonSelectRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pokemonSelectRow select,
+  .pokemonSelectRow button {
+    width: 100%;
+  }
+
+}
+/* =========================================
+   포켓몬 검색 입력
+   ========================================= */
+
+.pokemonSearch {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 8px;
+}
+
+
+/* =========================================
+   포켓몬 선택 카드
+   ========================================= */
+
+.pokemonChoices {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  margin-top: 12px;
+}
+
+
+.pokemonChoice {
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+
+  background: white;
+
+  padding: 12px;
+
+  cursor: pointer;
+
+  text-align: center;
+
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+.pokemonChoice:hover {
+  transform: translateY(-2px);
+  border-color: #aaa;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.08);
+}
+
+
+.pokemonChoice img {
+  width: 80px;
+  height: 80px;
+
+  object-fit: contain;
+
+  display: block;
+
+  margin: 0 auto 8px;
+}
+
+
+.pokemonChoiceName {
+  font-weight: 600;
+}
+
+
+.pokemonChoiceCondition {
+  margin-top: 4px;
+
+  font-size: 12px;
+
+  color: #666;
+}
+
+
+/* =========================================
+   다이맥스 이미지가 아직 없을 때
+   ========================================= */
+
+.pokemonChoicePlaceholder {
+  width: 80px;
+  height: 80px;
+
+  margin: 0 auto 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #f5f5f5;
+
+  font-size: 12px;
+
+  color: #999;
+}
+
+
+/* =========================================
+   선택된 포켓몬
+   ========================================= */
+
+.selectedPokemonList {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 12px;
+}
+
+
+.selectedPokemon {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 6px 10px;
+
+  border: 1px solid #e5e5e5;
+
+  border-radius: 10px;
+
+  background: #fafafa;
+}
+
+
+.selectedPokemon img {
+  width: 42px;
+  height: 42px;
+
+  object-fit: contain;
+}
+
+
+.selectedPokemonName {
+  font-weight: 600;
+}
+
+
+.selectedPokemonCondition {
+  font-size: 13px;
+
+  color: #666;
+}
+
+
+.removePokemon {
+  border: 0;
+
+  background: transparent;
+
+  color: #999;
+
+  font-size: 18px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  padding: 2px 4px;
+}
+
+
+.removePokemon:hover {
+  color: #d33;
+}
+
+
+/* =========================================
+   교환 카드 버튼
+   ========================================= */
+
+.cardButtons {
+  display: flex;
+
+  gap: 8px;
+
+  margin-top: 16px;
+}
+
+
+.cardButtons .request {
+  flex: 1;
+}
+
+
+.cardButtons .deleteTrade {
+  padding: 10px 16px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 10px;
+
+  background: white;
+
+  color: #d33;
+
+  cursor: pointer;
+
+  font-size: 14px;
+}
+
+
+.cardButtons .deleteTrade:hover {
+  background: #fff5f5;
+
+  border-color: #d33;
+}
+
+
+/* =========================================
+   교환 목록 포켓몬
+   ========================================= */
+
+.pokemonChip {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+
+.pokemonChip img {
+  width: 32px;
+  height: 32px;
+
+  object-fit: contain;
+}
+
+
+.conditionBadge {
+  display: inline-flex;
+
+  align-items: center;
+
+  margin-left: 4px;
+
+  padding: 2px 6px;
+
+  border-radius: 6px;
+
+  background: #f3f3f3;
+
+  font-size: 11px;
+
+  color: #555;
+}
+
+
+/* =========================================
+   모바일
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .pokemonChoices {
+    grid-template-columns: 1fr;
+  }
+
+}
