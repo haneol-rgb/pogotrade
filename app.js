@@ -1950,10 +1950,6 @@ async function loadChatMessages(roomId) {
   var result =
     await supabaseClient
       .from("chat_messages")
-    console.log(
-  "메시지 불러오기 roomId:",
-  roomId
-);
       .select("*")
       .eq("room_id", roomId)
       .order("created_at", {
