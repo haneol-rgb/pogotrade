@@ -1900,7 +1900,7 @@ function openChat(roomId, trainerName) {
 document
 document.addEventListener(
   "click",
-  function (event) {
+  async function (event) {
 
     if (
       event.target &&
