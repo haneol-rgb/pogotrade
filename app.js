@@ -1963,6 +1963,8 @@ function openChat(roomId, trainerName) {
       trainerName || "교환 채팅";
   }
 
+    loadChatMessages(roomId);
+  
   modal.style.display =
     "block";
 
