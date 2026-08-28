@@ -1862,3 +1862,29 @@ async function requestTrade(trade) {
   );
 
 });
+var currentChatRoomId = null;
+
+function openChat(roomId, trainerName) {
+
+  currentChatRoomId =
+    roomId;
+
+  var modal =
+    document.getElementById("chatModal");
+
+  var title =
+    document.getElementById("chatTitle");
+
+  if (!modal) {
+    return;
+  }
+
+  if (title) {
+    title.textContent =
+      trainerName || "교환 채팅";
+  }
+
+  modal.style.display =
+    "block";
+
+}
