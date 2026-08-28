@@ -1398,6 +1398,27 @@ var userHighId =
 
     return;
   }
+
+    if (existingRoom.data) {
+
+    alert(
+      name +
+      "님에게 교환 신청을 보냈습니다.\n\n" +
+      "기존 채팅방으로 연결합니다."
+    );
+
+    openChat(
+      existingRoom.data.id,
+      name
+    );
+
+    console.log(
+      "기존 채팅방 사용:",
+      existingRoom.data
+    );
+
+    return;
+  }
   
   var result =
     await supabaseClient
