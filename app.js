@@ -2058,11 +2058,12 @@ async function loadChatMessages(roomId) {
 }
 
 function openChat(roomId, trainerName, trade) {
+
   console.log(
-  "채팅창 열기:",
-  roomId,
-  trainerName
-);
+    "채팅창 열기:",
+    roomId,
+    trainerName
+  );
 
   currentChatRoomId =
     roomId;
@@ -2082,13 +2083,37 @@ function openChat(roomId, trainerName, trade) {
       trainerName || "교환 채팅";
   }
 
-   if (title) {
-    title.textContent =
-      trainerName || "교환 채팅";
+  var tradeInfo =
+    document.getElementById("chatTradeInfo");
+
+  if (!tradeInfo) {
+
+    tradeInfo =
+      document.createElement("div");
+
+    tradeInfo.id =
+      "chatTradeInfo";
+
+    var header =
+      document.getElementById("chatHeader");
+
+    if (header) {
+
+      header.parentNode.insertBefore(
+        tradeInfo,
+        document.getElementById("chatMessages")
+      );
+
+    }
+
   }
 
-    loadChatMessages(roomId);
-  
+  loadChatMessages(roomId);
+
+  modal.style.display =
+    "block";
+
+}  
   modal.style.display =
     "block";
 
