@@ -1376,6 +1376,29 @@ var userHighId =
     return;
   }
 
+    var existingRoom =
+    await supabaseClient
+      .from("chat_rooms")
+      .select("*")
+      .eq("user_low_id", userLowId)
+      .eq("user_high_id", userHighId)
+      .maybeSingle();
+
+  if (existingRoom.error) {
+
+    console.error(
+      "기존 채팅방 확인 실패:",
+      existingRoom.error
+    );
+
+    alert(
+      "기존 채팅방을 확인하지 못했습니다.\n\n" +
+      existingRoom.error.message
+    );
+
+    return;
+  }
+  
   var result =
     await supabaseClient
       .from("chat_rooms")
