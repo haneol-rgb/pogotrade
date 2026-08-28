@@ -1897,56 +1897,6 @@ function openChat(roomId, trainerName) {
     "block";
 
 }
-document
-document.addEventListener(
-  "click",
-  async function (event) {
-
-    if (
-      event.target &&
-      event.target.id === "closeChat"
-    ) {
-
-      var modal =
-        document.getElementById("chatModal");
-
-      if (modal) {
-        modal.style.display = "none";
-      }
-
-      currentChatRoomId = null;
-
-      return;
-    }
-
-
-    if (
-      event.target &&
-      event.target.id === "sendChat"
-    ) {
-
-      var input =
-        document.getElementById("chatInput");
-
-      if (!input) {
-        return;
-      }
-
-      var message =
-        input.value.trim();
-
-      if (!message) {
-        return;
-      }
-
-      var senderId =
-  localStorage.getItem("pogo_user_id");
-
-if (!senderId) {
-
-  alert(
-    "사용자 인증 정보를 찾을 수 없습니다."
-  );
 
   return;
 }
