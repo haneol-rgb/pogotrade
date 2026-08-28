@@ -1888,3 +1888,17 @@ function openChat(roomId, trainerName) {
     "block";
 
 }
+document
+  .getElementById("closeChat")
+  .addEventListener("click", function () {
+
+    var modal =
+      document.getElementById("chatModal");
+
+    if (modal) {
+      modal.style.display = "none";
+    }
+
+    currentChatRoomId = null;
+
+  });
