@@ -41,53 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
       SUPABASE_URL,
       SUPABASE_KEY
     );
-  document.addEventListener(
-  "click",
-  async function (event) {
-
-    if (
-      event.target &&
-      event.target.id === "closeChat"
-    ) {
-
-      var modal =
-        document.getElementById("chatModal");
-
-      if (modal) {
-        modal.style.display = "none";
-      }
-
-      currentChatRoomId = null;
-
-      return;
-    }
-
-
-    if (
-      event.target &&
-      event.target.id === "sendChat"
-    ) {
-
-      var input =
-        document.getElementById("chatInput");
-
-      if (!input) {
-        return;
-      }
-
-      var message =
-        input.value.trim();
-
-      if (!message) {
-        return;
-      }
-
-      console.log(
-        "메시지 전송 테스트:",
-        currentChatRoomId,
-        message
-      );
-
+ 
     }
 
   }
@@ -1949,46 +1903,4 @@ function openChat(roomId, trainerName) {
 
 }
 
-  return;
-}
-
-var result =
-  await supabaseClient
-    .from("chat_messages")
-    .insert({
-      room_id: currentChatRoomId,
-      sender_id: senderId,
-      message: message
-    });
-
-if (result.error) {
-
-  console.error(
-    "메시지 저장 실패:",
-    result.error
-  );
-
-  alert(
-    "메시지를 보내지 못했습니다.\n\n" +
-    result.error.message
-  );
-
-  return;
-}
-
-console.log(
-  "메시지 저장 성공:",
-  message
-);
-
-input.value = "";
-      console.log(
-        "메시지 전송 테스트:",
-        currentChatRoomId,
-        message
-      );
-
-    }
-
-  }
-);
+});
