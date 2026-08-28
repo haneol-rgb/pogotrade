@@ -41,6 +41,57 @@ document.addEventListener("DOMContentLoaded", function () {
       SUPABASE_URL,
       SUPABASE_KEY
     );
+  document.addEventListener(
+  "click",
+  async function (event) {
+
+    if (
+      event.target &&
+      event.target.id === "closeChat"
+    ) {
+
+      var modal =
+        document.getElementById("chatModal");
+
+      if (modal) {
+        modal.style.display = "none";
+      }
+
+      currentChatRoomId = null;
+
+      return;
+    }
+
+
+    if (
+      event.target &&
+      event.target.id === "sendChat"
+    ) {
+
+      var input =
+        document.getElementById("chatInput");
+
+      if (!input) {
+        return;
+      }
+
+      var message =
+        input.value.trim();
+
+      if (!message) {
+        return;
+      }
+
+      console.log(
+        "메시지 전송 테스트:",
+        currentChatRoomId,
+        message
+      );
+
+    }
+
+  }
+);
 
 
   /* =========================================================
