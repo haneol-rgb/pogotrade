@@ -80,7 +80,7 @@ if (!senderId) {
 }
 
 var result =
-  await supabaseClient
+  await window.supabaseClient
     .from("chat_messages")
     .insert({
       room_id: currentChatRoomId,
