@@ -2057,7 +2057,7 @@ async function loadChatMessages(roomId) {
 
 }
 
-function openChat(roomId, trainerName) {
+function openChat(roomId, trainerName, trade) {
   console.log(
   "채팅창 열기:",
   roomId,
