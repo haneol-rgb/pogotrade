@@ -41,11 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
       SUPABASE_URL,
       SUPABASE_KEY
     );
- 
-    }
-
-  }
-);
 
 
   /* =========================================================
