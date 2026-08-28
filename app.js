@@ -1943,9 +1943,17 @@ var currentChatRoomId = null;
 
 async function loadChatMessages(roomId) {
 
+  console.log(
+  "메시지 저장 roomId:",
+  currentChatRoomId
+);
   var result =
     await supabaseClient
       .from("chat_messages")
+    console.log(
+  "메시지 불러오기 roomId:",
+  roomId
+);
       .select("*")
       .eq("room_id", roomId)
       .order("created_at", {
