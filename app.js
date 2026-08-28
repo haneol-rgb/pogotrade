@@ -1897,5 +1897,3 @@ function openChat(roomId, trainerName) {
     "block";
 
 }
-
-});
