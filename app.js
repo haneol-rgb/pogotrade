@@ -14,7 +14,7 @@ var SUPABASE_URL =
 "https://lsdqvbijhxnfrzprcaxr.supabase.co";
 
 var SUPABASE_KEY =
-"여기에_네_Supabase_publishable_key";
+"sb_publishable_6V08H2LunPBhmIqQjCtHVg_RCqIkuHR";
 
 /* =========================================================
 Supabase 연결
