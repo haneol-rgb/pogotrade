@@ -1911,3 +1911,28 @@ document
     currentChatRoomId = null;
 
   });
+document
+  .getElementById("sendChat")
+  .addEventListener("click", function () {
+
+    var input =
+      document.getElementById("chatInput");
+
+    if (!input) {
+      return;
+    }
+
+    var message =
+      input.value.trim();
+
+    if (!message) {
+      return;
+    }
+
+    console.log(
+      "메시지 전송 테스트:",
+      currentChatRoomId,
+      message
+    );
+
+  });
