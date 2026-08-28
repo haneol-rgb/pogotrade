@@ -1409,7 +1409,8 @@ var userHighId =
 
     openChat(
       existingRoom.data.id,
-      name
+      name,
+      trade
     );
 
     console.log(
@@ -1455,7 +1456,8 @@ var userHighId =
   );
   openChat(
   result.data.id,
-  name
+  name,
+  trade
 );
 
   console.log(
