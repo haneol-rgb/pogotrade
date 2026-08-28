@@ -224,11 +224,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             name:
               pokemon.name ||
-              `포켓몬 ${pokemon.id}`,
+              "포켓몬 $+pokemon.id,
 
             koreanName:
               pokemon.name ||
-              `포켓몬 ${pokemon.id}`
+              "포켓몬 +pokemon.id
 
           })
         );
