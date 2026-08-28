@@ -1,3 +1,4 @@
+```javascript
 document.addEventListener("DOMContentLoaded", () => {
 
   // =========================================================
@@ -6,16 +7,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const MAX_POKEMON = 1025;
 
-  let trades = JSON.parse(
-    localStorage.getItem("pogoTrades") || "[]"
-  );
+  // =========================================================
+  // Supabase 설정
+  // =========================================================
+  //
+  // 네 Supabase 프로젝트 ID:
+  // lsdqvbijhxnfrzprcaxr
+  //
+  // Supabase URL은 프로젝트 ID를 기준으로:
+  // https://lsdqvbijhxnfrzprcaxr.supabase.co
+  //
+  // 아래 SUPABASE_KEY 부분에
+  // 네가 Supabase에서 확인한 sb_publishable_... 키를 넣어줘.
+  //
+  // =========================================================
+
+  const SUPABASE_URL =
+    "https://lsdqvbijhxnfrzprcaxr.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_6V08H2LunPBhmIqQjCtHVg_RCqIkuHR";
+
+
+  // =========================================================
+  // Supabase 연결
+  // =========================================================
+
+  if (
+    typeof window.supabase === "undefined"
+  ) {
+
+    console.error(
+      "Supabase 라이브러리를 찾을 수 없습니다."
+    );
+
+    alert(
+      "Supabase 라이브러리를 불러오지 못했습니다.\n\n" +
+      "index.html에 Supabase CDN이 연결되어 있는지 확인해주세요."
+    );
+
+    return;
+
+  }
+
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  // =========================================================
+  // 데이터
+  // =========================================================
+
+  let trades = [];
 
   let pokemonList = [];
 
   let lookingPokemonList = [];
+
   let offeringPokemonList = [];
 
-  const $ = id => document.getElementById(id);
+
+  const $ = id =>
+    document.getElementById(id);
 
 
   // =========================================================
@@ -119,9 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =========================================================
   // 포켓몬 데이터 불러오기
-  //
-  // 인터넷을 사용하지 않고
-  // 포켓몬 전국도감.js의 pokemonData 사용
   // =========================================================
 
   function loadPokemonList() {
@@ -152,12 +206,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     pokemonList =
       pokemonData
+
         .filter(
           pokemon =>
             pokemon &&
             Number(pokemon.id) >= 1 &&
             Number(pokemon.id) <= MAX_POKEMON
         )
+
         .map(
           pokemon => ({
 
@@ -187,8 +243,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // =========================================================
   // 포켓몬 이미지
-  //
-  // 기존 방식 그대로 유지
   // =========================================================
 
   function pokemonImage(
@@ -256,10 +310,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const forms = [
-
       "normal",
       "shiny"
-
     ];
 
 
@@ -320,6 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     return pokemonList
+
       .filter(
         pokemon => {
 
@@ -343,6 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
       )
+
       .slice(
         0,
         8
@@ -434,6 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     choices.innerHTML =
       results
+
         .map(
           pokemon => {
 
@@ -478,6 +533,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           }
         )
+
         .join("");
 
 
@@ -485,6 +541,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .querySelectorAll(
         ".pokemonSearchResult"
       )
+
       .forEach(
         result => {
 
@@ -594,10 +651,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
               const shiny =
                 form === "shiny" ||
-                form ===
-                  "shiny-dynamax" ||
-                form ===
-                  "shiny-gigantamax";
+                form === "shiny-dynamax" ||
+                form === "shiny-gigantamax";
 
 
               return `
@@ -650,6 +705,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .querySelectorAll(
         ".pokemonFormChoice"
       )
+
       .forEach(
         card => {
 
@@ -769,6 +825,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     container.innerHTML =
       list
+
         .map(
           (pokemon, index) => {
 
@@ -786,10 +843,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const shiny =
               form === "shiny" ||
-              form ===
-                "shiny-dynamax" ||
-              form ===
-                "shiny-gigantamax";
+              form === "shiny-dynamax" ||
+              form === "shiny-gigantamax";
 
 
             return `
@@ -840,6 +895,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           }
         )
+
         .join("");
 
 
@@ -847,6 +903,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .querySelectorAll(
         ".removePokemon"
       )
+
       .forEach(
         button => {
 
@@ -889,8 +946,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ) {
 
     if (
-      typeof pokemon ===
-        "object" &&
+      typeof pokemon === "object" &&
       pokemon !== null
     ) {
 
@@ -962,10 +1018,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const shiny =
       p.condition === "shiny" ||
-      p.condition ===
-        "shiny-dynamax" ||
-      p.condition ===
-        "shiny-gigantamax";
+      p.condition === "shiny-dynamax" ||
+      p.condition === "shiny-gigantamax";
 
 
     return `
@@ -1034,6 +1088,74 @@ document.addEventListener("DOMContentLoaded", () => {
         pokemonChip
       )
       .join("");
+
+  }
+
+
+  // =========================================================
+  // Supabase에서 교환 목록 불러오기
+  // =========================================================
+
+  async function loadTrades() {
+
+    console.log(
+      "Supabase에서 교환 목록을 불러오는 중..."
+    );
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+
+        .from("trades")
+
+        .select("*")
+
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (error) {
+
+      console.error(
+        "교환 목록 불러오기 실패:",
+        error
+      );
+
+
+      alert(
+        "교환 목록을 불러오지 못했습니다.\n\n" +
+        error.message
+      );
+
+
+      trades = [];
+
+      render();
+
+      return;
+
+    }
+
+
+    trades =
+      Array.isArray(data)
+        ? data
+        : [];
+
+
+    console.log(
+      `Supabase 교환 목록 ${trades.length}개 로딩 완료`
+    );
+
+
+    render();
 
   }
 
@@ -1243,6 +1365,7 @@ document.addEventListener("DOMContentLoaded", () => {
       >
 
         ${list
+
           .map(
             trade => {
 
@@ -1286,7 +1409,8 @@ document.addEventListener("DOMContentLoaded", () => {
                       class="name"
                     >
                       ${escapeHtml(
-                        trade.name
+                        trade.name ||
+                        "이름 없음"
                       )}
                     </span>
 
@@ -1362,6 +1486,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
           )
+
           .join("")}
 
       </div>
@@ -1369,12 +1494,15 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
 
+    // =======================================================
     // 교환 신청
+    // =======================================================
 
     document
       .querySelectorAll(
         ".request"
       )
+
       .forEach(
         button => {
 
@@ -1387,6 +1515,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
+              if (
+                !trades[index]
+              ) {
+
+                return;
+
+              }
+
+
               requestTrade(
                 trades[index].name
               );
@@ -1397,12 +1534,15 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
 
+    // =======================================================
     // 삭제
+    // =======================================================
 
     document
       .querySelectorAll(
         ".deleteTrade"
       )
+
       .forEach(
         button => {
 
@@ -1447,13 +1587,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // 교환 목록 삭제
   // =========================================================
 
-  function deleteTrade(
+  async function deleteTrade(
     index
   ) {
 
-    if (
-      !trades[index]
-    ) {
+    const trade =
+      trades[index];
+
+
+    if (!trade) {
 
       return;
 
@@ -1462,7 +1604,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const confirmed =
       confirm(
-        `"${trades[index].name}"님의 교환 목록을 삭제하시겠습니까?\n\n` +
+        `"${trade.name}"님의 교환 목록을 삭제하시겠습니까?\n\n` +
         `삭제하면 다시 복구할 수 없습니다.`
       );
 
@@ -1474,21 +1616,68 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    // -------------------------------------------------------
+    // 삭제할 데이터의 id 확인
+    // -------------------------------------------------------
+
+    if (!trade.id) {
+
+      alert(
+        "이 교환 목록에는 삭제할 ID가 없습니다."
+      );
+
+      return;
+
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+
+        .from("trades")
+
+        .delete()
+
+        .eq(
+          "id",
+          trade.id
+        );
+
+
+    if (error) {
+
+      console.error(
+        "교환 목록 삭제 실패:",
+        error
+      );
+
+
+      alert(
+        "교환 목록을 삭제하지 못했습니다.\n\n" +
+        error.message
+      );
+
+      return;
+
+    }
+
+
+    // 화면에서도 제거
+
     trades.splice(
       index,
       1
     );
 
 
-    localStorage.setItem(
-      "pogoTrades",
-      JSON.stringify(
-        trades
-      )
-    );
-
-
     render();
+
+
+    alert(
+      "교환 목록이 삭제되었습니다."
+    );
 
   }
 
@@ -1629,7 +1818,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("save")) {
 
     $("save").onclick =
-      () => {
+      async () => {
 
         const name =
           $("name")
@@ -1662,35 +1851,105 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        const item = {
+        // ---------------------------------------------------
+        // Supabase에 저장할 데이터
+        // ---------------------------------------------------
 
-          name,
+        const newTrade = {
+
+          name:
+
+            name,
 
           looking:
+
             [...lookingPokemonList],
 
           offering:
+
             [...offeringPokemonList]
 
         };
 
 
-        trades.unshift(
-          item
+        console.log(
+          "Supabase에 교환 목록 저장:",
+          newTrade
         );
 
 
-        localStorage.setItem(
-          "pogoTrades",
-          JSON.stringify(
-            trades
-          )
+        // ---------------------------------------------------
+        // Supabase INSERT
+        // ---------------------------------------------------
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+
+            .from("trades")
+
+            .insert(
+              newTrade
+            )
+
+            .select();
+
+
+        if (error) {
+
+          console.error(
+            "교환 목록 등록 실패:",
+            error
+          );
+
+
+          alert(
+            "교환 목록을 등록하지 못했습니다.\n\n" +
+            error.message
+          );
+
+          return;
+
+        }
+
+
+        console.log(
+          "교환 목록 등록 완료:",
+          data
         );
 
 
+        // ---------------------------------------------------
+        // 화면 데이터에도 추가
+        // ---------------------------------------------------
+
+        if (
+          Array.isArray(data) &&
+          data.length
+        ) {
+
+          trades.unshift(
+            data[0]
+          );
+
+        }
+        else {
+
+          trades.unshift(
+            newTrade
+          );
+
+        }
+
+
+        // ---------------------------------------------------
         // 입력 초기화
+        // ---------------------------------------------------
 
-        $("name").value = "";
+        $("name").value =
+          "";
 
 
         if ($("lookingSearch")) {
@@ -1746,6 +2005,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         render();
 
+
+        alert(
+          "교환 목록이 등록되었습니다."
+        );
+
       };
 
   }
@@ -1800,21 +2064,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // =========================================================
-  // 오프라인 포켓몬 데이터 로딩
+  // 시작
   // =========================================================
 
   loadPokemonList();
 
-
-  // =========================================================
-  // 시작
-  // =========================================================
-
-  render();
+  loadTrades();
 
 
   console.log(
-    `✅ 포켓몬 ${pokemonList.length}종 준비 완료`
+    "===================================="
+  );
+
+  console.log(
+    "Pokémon GO 교환 목록 시작"
+  );
+
+  console.log(
+    "Supabase 모드"
+  );
+
+  console.log(
+    "===================================="
   );
 
 });
