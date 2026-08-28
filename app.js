@@ -2086,3 +2086,30 @@ function openChat(roomId, trainerName) {
     "block";
 
 }
+
+document.addEventListener(
+  "click",
+  function (event) {
+
+    if (
+      event.target &&
+      event.target.id === "closeChat"
+    ) {
+
+      var modal =
+        document.getElementById("chatModal");
+
+      if (modal) {
+        modal.style.display = "none";
+      }
+
+      currentChatRoomId = null;
+
+      console.log(
+        "채팅창 닫기"
+      );
+
+    }
+
+  }
+);
