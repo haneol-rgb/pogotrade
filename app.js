@@ -1357,6 +1357,16 @@ async function requestTrade(trade) {
     return;
   }
 
+  var userLowId =
+  buyerId < sellerId
+    ? buyerId
+    : sellerId;
+
+var userHighId =
+  buyerId < sellerId
+    ? sellerId
+    : buyerId;
+  
   if (!trade.id) {
 
     alert(
