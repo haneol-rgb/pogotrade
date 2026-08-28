@@ -1428,7 +1428,7 @@ var userHighId =
         seller_id: sellerId,
         buyer_id: buyerId,
         user_low_id: userLowId,
-        user_high_id: userHihgId
+        user_high_id: userHighId
       })
       .select()
       .single();
