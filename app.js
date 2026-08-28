@@ -1,4 +1,3 @@
-```javascript
 document.addEventListener("DOMContentLoaded", () => {
 
   // =========================================================
@@ -7,19 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const MAX_POKEMON = 1025;
 
+
   // =========================================================
   // Supabase 설정
-  // =========================================================
-  //
-  // 네 Supabase 프로젝트 ID:
-  // lsdqvbijhxnfrzprcaxr
-  //
-  // Supabase URL은 프로젝트 ID를 기준으로:
-  // https://lsdqvbijhxnfrzprcaxr.supabase.co
-  //
-  // 아래 SUPABASE_KEY 부분에
-  // 네가 Supabase에서 확인한 sb_publishable_... 키를 넣어줘.
-  //
   // =========================================================
 
   const SUPABASE_URL =
@@ -71,12 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let offeringPokemonList = [];
 
 
-  const $ = id =>
-    document.getElementById(id);
+  const $ = function(id) {
+    return document.getElementById(id);
+  };
 
 
   // =========================================================
-  // Pokémon GO에서 다이맥스가 공개된 포켓몬
+  // Pokémon GO 다이맥스
   // =========================================================
 
   const dynamaxIds = new Set([
@@ -192,8 +182,8 @@ document.addEventListener("DOMContentLoaded", () => {
       alert(
         "포켓몬 전국도감.js를 불러오지 못했습니다.\n\n" +
         "index.html에서\n\n" +
-        '<script src="포켓몬 전국도감.js"></script>\n' +
-        '<script src="app.js"></script>\n\n' +
+        "<script src=\"포켓몬 전국도감.js\"></script>\n" +
+        "<script src=\"app.js\"></script>\n\n" +
         "순서로 연결되어 있는지 확인해주세요."
       );
 
@@ -207,15 +197,19 @@ document.addEventListener("DOMContentLoaded", () => {
     pokemonList =
       pokemonData
 
-        .filter(
-          pokemon =>
+        .filter(function(pokemon) {
+
+          return (
             pokemon &&
             Number(pokemon.id) >= 1 &&
             Number(pokemon.id) <= MAX_POKEMON
-        )
+          );
 
-        .map(
-          pokemon => ({
+        })
+
+        .map(function(pokemon) {
+
+          return {
 
             id:
               Number(
@@ -224,18 +218,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
             name:
               pokemon.name ||
-              "포켓몬 $+pokemon.id,
+              "포켓몬 " + pokemon.id,
 
             koreanName:
               pokemon.name ||
-              "포켓몬 +pokemon.id
+              "포켓몬 " + pokemon.id
 
-          })
-        );
+          };
+
+        });
 
 
     console.log(
-      `오프라인 포켓몬 데이터 ${pokemonList.length}종 로딩 완료`
+      "오프라인 포켓몬 데이터 " +
+      pokemonList.length +
+      "종 로딩 완료"
     );
 
   }
@@ -247,17 +244,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function pokemonImage(
     id,
-    shiny = false
+    shiny
   ) {
+
+    if (shiny === undefined) {
+      shiny = false;
+    }
+
 
     if (shiny) {
 
-      return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`;
+      return (
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/" +
+        id +
+        ".png"
+      );
 
     }
 
 
-    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+    return (
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
+      id +
+      ".png"
+    );
 
   }
 
@@ -373,29 +383,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return pokemonList
 
-      .filter(
-        pokemon => {
+      .filter(function(pokemon) {
 
-          const name =
-            String(
-              pokemon.name
-            )
-              .toLowerCase();
-
-
-          const id =
-            String(
-              pokemon.id
-            );
+        const name =
+          String(
+            pokemon.name
+          )
+            .toLowerCase();
 
 
-          return (
-            name.includes(q) ||
-            id === q
+        const id =
+          String(
+            pokemon.id
           );
 
-        }
-      )
+
+        return (
+          name.includes(q) ||
+          id === q
+        );
+
+      })
 
       .slice(
         0,
@@ -486,55 +494,46 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    let html = "";
+
+
+    results.forEach(function(pokemon) {
+
+      html +=
+        "<div " +
+          "class=\"pokemonSearchResult\" " +
+          "data-pokemon-id=\"" +
+            pokemon.id +
+          "\">" +
+
+          "<img " +
+            "src=\"" +
+              pokemonImage(pokemon.id) +
+            "\" " +
+            "alt=\"" +
+              escapeHtml(pokemon.name) +
+            "\">" +
+
+          "<div>" +
+
+            "<strong>" +
+              escapeHtml(pokemon.name) +
+            "</strong>" +
+
+            "<small>" +
+              "No." +
+              String(pokemon.id).padStart(4, "0") +
+            "</small>" +
+
+          "</div>" +
+
+        "</div>";
+
+    });
+
+
     choices.innerHTML =
-      results
-
-        .map(
-          pokemon => {
-
-            return `
-
-              <div
-                class="pokemonSearchResult"
-                data-pokemon-id="${pokemon.id}"
-              >
-
-                <img
-                  src="${pokemonImage(
-                    pokemon.id
-                  )}"
-                  alt="${escapeHtml(
-                    pokemon.name
-                  )}"
-                >
-
-                <div>
-
-                  <strong>
-                    ${escapeHtml(
-                      pokemon.name
-                    )}
-                  </strong>
-
-                  <small>
-                    No.${String(
-                      pokemon.id
-                    ).padStart(
-                      4,
-                      "0"
-                    )}
-                  </small>
-
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        )
-
-        .join("");
+      html;
 
 
     choices
@@ -542,44 +541,43 @@ document.addEventListener("DOMContentLoaded", () => {
         ".pokemonSearchResult"
       )
 
-      .forEach(
-        result => {
+      .forEach(function(result) {
 
-          result.addEventListener(
-            "click",
-            () => {
+        result.addEventListener(
+          "click",
+          function() {
 
-              const id =
-                Number(
-                  result.dataset.pokemonId
-                );
-
-
-              const pokemon =
-                pokemonList.find(
-                  p =>
-                    p.id === id
-                );
-
-
-              if (!pokemon) {
-
-                return;
-
-              }
-
-
-              showFormChoices(
-                pokemon,
-                inputId,
-                choicesId
+            const id =
+              Number(
+                result.dataset.pokemonId
               );
 
-            }
-          );
 
-        }
-      );
+            const pokemon =
+              pokemonList.find(function(p) {
+
+                return p.id === id;
+
+              });
+
+
+            if (!pokemon) {
+
+              return;
+
+            }
+
+
+            showFormChoices(
+              pokemon,
+              inputId,
+              choicesId
+            );
+
+          }
+        );
+
+      });
 
   }
 
@@ -611,94 +609,91 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
 
-    choices.innerHTML = `
+    let html = "";
 
-      <div
-        class="pokemonFormHeader"
-      >
 
-        <strong>
-          ${escapeHtml(
+    html +=
+      "<div class=\"pokemonFormHeader\">" +
+
+        "<strong>" +
+          escapeHtml(
             pokemon.name
-          )}
-        </strong>
+          ) +
+        "</strong>" +
 
-        <span>
-          No.${String(
+        "<span>" +
+          "No." +
+          String(
             pokemon.id
           ).padStart(
             4,
             "0"
-          )}
-        </span>
+          ) +
+        "</span>" +
 
-      </div>
-
-
-      <div
-        class="pokemonFormGrid"
-      >
-
-        ${forms
-          .map(
-            form => {
-
-              const definition =
-                formDefinitions[
-                  form
-                ];
+      "</div>";
 
 
-              const shiny =
-                form === "shiny" ||
-                form === "shiny-dynamax" ||
-                form === "shiny-gigantamax";
+    html +=
+      "<div class=\"pokemonFormGrid\">";
 
 
-              return `
+    forms.forEach(function(form) {
 
-                <div
-                  class="pokemonFormChoice"
-                  data-pokemon-id="${pokemon.id}"
-                  data-form="${form}"
-                >
-
-                  <div
-                    class="pokemonFormImage"
-                  >
-
-                    <img
-                      src="${pokemonImage(
-                        pokemon.id,
-                        shiny
-                      )}"
-                      alt="${escapeHtml(
-                        pokemon.name
-                      )}"
-                    >
-
-                  </div>
+      const definition =
+        formDefinitions[
+          form
+        ];
 
 
-                  <div
-                    class="pokemonFormName"
-                  >
+      const shiny =
+        form === "shiny" ||
+        form === "shiny-dynamax" ||
+        form === "shiny-gigantamax";
 
-                    ${definition.name}
 
-                  </div>
+      html +=
+        "<div " +
+          "class=\"pokemonFormChoice\" " +
+          "data-pokemon-id=\"" +
+            pokemon.id +
+          "\" " +
+          "data-form=\"" +
+            form +
+          "\">" +
 
-                </div>
+          "<div class=\"pokemonFormImage\">" +
 
-              `;
+            "<img " +
+              "src=\"" +
+                pokemonImage(
+                  pokemon.id,
+                  shiny
+                ) +
+              "\" " +
+              "alt=\"" +
+                escapeHtml(
+                  pokemon.name
+                ) +
+              "\">" +
 
-            }
-          )
-          .join("")}
+          "</div>" +
 
-      </div>
+          "<div class=\"pokemonFormName\">" +
+            definition.name +
+          "</div>" +
 
-    `;
+        "</div>";
+
+    });
+
+
+    html +=
+      "</div>";
+
+
+    choices.innerHTML =
+      html;
 
 
     choices
@@ -706,99 +701,98 @@ document.addEventListener("DOMContentLoaded", () => {
         ".pokemonFormChoice"
       )
 
-      .forEach(
-        card => {
+      .forEach(function(card) {
 
-          card.addEventListener(
-            "click",
-            () => {
+        card.addEventListener(
+          "click",
+          function() {
 
-              const id =
-                Number(
-                  card.dataset.pokemonId
-                );
-
-
-              const form =
-                card.dataset.form;
+            const id =
+              Number(
+                card.dataset.pokemonId
+              );
 
 
-              const selected =
-                pokemonList.find(
-                  p =>
-                    p.id === id
-                );
+            const form =
+              card.dataset.form;
 
 
-              if (!selected) {
+            const selected =
+              pokemonList.find(function(p) {
 
-                return;
+                return p.id === id;
 
-              }
-
-
-              const item = {
-
-                id:
-                  selected.id,
-
-                name:
-                  selected.name,
-
-                condition:
-                  form
-
-              };
+              });
 
 
-              if (
-                inputId ===
-                "lookingSearch"
-              ) {
+            if (!selected) {
 
-                lookingPokemonList.push(
-                  item
-                );
-
-
-                renderSelectedPokemon(
-                  lookingPokemonList,
-                  "lookingList"
-                );
-
-              }
-
-
-              if (
-                inputId ===
-                "offeringSearch"
-              ) {
-
-                offeringPokemonList.push(
-                  item
-                );
-
-
-                renderSelectedPokemon(
-                  offeringPokemonList,
-                  "offeringList"
-                );
-
-              }
-
-
-              $(inputId).value =
-                "";
-
-
-              choices.innerHTML =
-                "";
+              return;
 
             }
-          );
 
-        }
-      );
+
+            const item = {
+
+              id:
+                selected.id,
+
+              name:
+                selected.name,
+
+              condition:
+                form
+
+            };
+
+
+            if (
+              inputId ===
+              "lookingSearch"
+            ) {
+
+              lookingPokemonList.push(
+                item
+              );
+
+
+              renderSelectedPokemon(
+                lookingPokemonList,
+                "lookingList"
+              );
+
+            }
+
+
+            if (
+              inputId ===
+              "offeringSearch"
+            ) {
+
+              offeringPokemonList.push(
+                item
+              );
+
+
+              renderSelectedPokemon(
+                offeringPokemonList,
+                "offeringList"
+              );
+
+            }
+
+
+            $(inputId).value =
+              "";
+
+
+            choices.innerHTML =
+              "";
+
+          }
+        );
+
+      });
 
   }
 
@@ -823,80 +817,75 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    let html = "";
+
+
+    list.forEach(function(pokemon, index) {
+
+      const form =
+        pokemon.condition ||
+        "normal";
+
+
+      const definition =
+        formDefinitions[
+          form
+        ] ||
+        formDefinitions.normal;
+
+
+      const shiny =
+        form === "shiny" ||
+        form === "shiny-dynamax" ||
+        form === "shiny-gigantamax";
+
+
+      html +=
+        "<div class=\"selectedPokemon\">" +
+
+          "<img " +
+            "src=\"" +
+              pokemonImage(
+                pokemon.id,
+                shiny
+              ) +
+            "\" " +
+            "alt=\"" +
+              escapeHtml(
+                pokemon.name
+              ) +
+            "\">" +
+
+          "<div class=\"selectedPokemonInfo\">" +
+
+            "<strong>" +
+              escapeHtml(
+                pokemon.name
+              ) +
+            "</strong>" +
+
+            "<span>" +
+              definition.name +
+            "</span>" +
+
+          "</div>" +
+
+          "<button " +
+            "type=\"button\" " +
+            "class=\"removePokemon\" " +
+            "data-index=\"" +
+              index +
+            "\">" +
+            "×" +
+          "</button>" +
+
+        "</div>";
+
+    });
+
+
     container.innerHTML =
-      list
-
-        .map(
-          (pokemon, index) => {
-
-            const form =
-              pokemon.condition ||
-              "normal";
-
-
-            const definition =
-              formDefinitions[
-                form
-              ] ||
-              formDefinitions.normal;
-
-
-            const shiny =
-              form === "shiny" ||
-              form === "shiny-dynamax" ||
-              form === "shiny-gigantamax";
-
-
-            return `
-
-              <div
-                class="selectedPokemon"
-              >
-
-                <img
-                  src="${pokemonImage(
-                    pokemon.id,
-                    shiny
-                  )}"
-                  alt="${escapeHtml(
-                    pokemon.name
-                  )}"
-                >
-
-
-                <div
-                  class="selectedPokemonInfo"
-                >
-
-                  <strong>
-                    ${escapeHtml(
-                      pokemon.name
-                    )}
-                  </strong>
-
-                  <span>
-                    ${definition.name}
-                  </span>
-
-                </div>
-
-
-                <button
-                  type="button"
-                  class="removePokemon"
-                  data-index="${index}"
-                >
-                  ×
-                </button>
-
-              </div>
-
-            `;
-
-          }
-        )
-
-        .join("");
+      html;
 
 
     container
@@ -904,35 +893,33 @@ document.addEventListener("DOMContentLoaded", () => {
         ".removePokemon"
       )
 
-      .forEach(
-        button => {
+      .forEach(function(button) {
 
-          button.addEventListener(
-            "click",
-            () => {
+        button.addEventListener(
+          "click",
+          function() {
 
-              const index =
-                Number(
-                  button.dataset.index
-                );
-
-
-              list.splice(
-                index,
-                1
+            const index =
+              Number(
+                button.dataset.index
               );
 
 
-              renderSelectedPokemon(
-                list,
-                containerId
-              );
+            list.splice(
+              index,
+              1
+            );
 
-            }
-          );
 
-        }
-      );
+            renderSelectedPokemon(
+              list,
+              containerId
+            );
+
+          }
+        );
+
+      });
 
   }
 
@@ -971,10 +958,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const found =
-      pokemonList.find(
-        p =>
-          p.name === pokemon
-      );
+      pokemonList.find(function(p) {
+
+        return p.name === pokemon;
+
+      });
 
 
     return {
@@ -1022,45 +1010,45 @@ document.addEventListener("DOMContentLoaded", () => {
       p.condition === "shiny-gigantamax";
 
 
-    return `
-
-      <span
-        class="chip pokemonChip"
-      >
-
-        ${
-          p.id
-            ? `
-              <img
-                src="${pokemonImage(
-                  p.id,
-                  shiny
-                )}"
-                alt="${escapeHtml(
-                  p.name
-                )}"
-              >
-            `
-            : ""
-        }
+    let imageHtml = "";
 
 
-        <span>
-          ${escapeHtml(
+    if (p.id) {
+
+      imageHtml =
+        "<img " +
+          "src=\"" +
+            pokemonImage(
+              p.id,
+              shiny
+            ) +
+          "\" " +
+          "alt=\"" +
+            escapeHtml(
+              p.name
+            ) +
+          "\">";
+
+    }
+
+
+    return (
+      "<span class=\"chip pokemonChip\">" +
+
+        imageHtml +
+
+        "<span>" +
+          escapeHtml(
             p.name
-          )}
-        </span>
+          ) +
+        "</span>" +
 
+        "<span class=\"conditionBadge\">" +
+          definition.name +
+        "</span>" +
 
-        <span
-          class="conditionBadge"
-        >
-          ${definition.name}
-        </span>
-
-      </span>
-
-    `;
+      "</span>"
+    );
 
   }
 
@@ -1074,11 +1062,11 @@ document.addEventListener("DOMContentLoaded", () => {
       !array.length
     ) {
 
-      return `
-        <span class="chip">
-          없음
-        </span>
-      `;
+      return (
+        "<span class=\"chip\">" +
+          "없음" +
+        "</span>"
+      );
 
     }
 
@@ -1103,10 +1091,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    const {
-      data,
-      error
-    } =
+    const result =
       await supabaseClient
 
         .from("trades")
@@ -1119,6 +1104,13 @@ document.addEventListener("DOMContentLoaded", () => {
             ascending: false
           }
         );
+
+
+    const data =
+      result.data;
+
+    const error =
+      result.error;
 
 
     if (error) {
@@ -1151,7 +1143,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     console.log(
-      `Supabase 교환 목록 ${trades.length}개 로딩 완료`
+      "Supabase 교환 목록 " +
+      trades.length +
+      "개 로딩 완료"
     );
 
 
@@ -1201,92 +1195,92 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     const list =
-      trades.filter(
-        trade => {
+      trades.filter(function(trade) {
 
-          const looking =
-            (
-              trade.looking ||
-              []
-            )
-              .map(
-                normalizePokemon
-              );
-
-
-          const offering =
-            (
-              trade.offering ||
-              []
-            )
-              .map(
-                normalizePokemon
-              );
+        const looking =
+          (
+            trade.looking ||
+            []
+          )
+            .map(
+              normalizePokemon
+            );
 
 
-          const lookingText =
-            looking
-              .map(
-                p =>
-                  p.name
-              )
-              .join(" ")
-              .toLowerCase();
+        const offering =
+          (
+            trade.offering ||
+            []
+          )
+            .map(
+              normalizePokemon
+            );
 
 
-          const offeringText =
-            offering
-              .map(
-                p =>
-                  p.name
-              )
-              .join(" ")
-              .toLowerCase();
+        const lookingText =
+          looking
+            .map(function(p) {
+
+              return p.name;
+
+            })
+            .join(" ")
+            .toLowerCase();
 
 
-          if (!q) {
+        const offeringText =
+          offering
+            .map(function(p) {
 
-            return true;
+              return p.name;
 
-          }
-
-
-          if (
-            selectedMode ===
-            "looking"
-          ) {
-
-            return lookingText
-              .includes(q);
-
-          }
+            })
+            .join(" ")
+            .toLowerCase();
 
 
-          if (
-            selectedMode ===
-            "offering"
-          ) {
+        if (!q) {
 
-            return offeringText
-              .includes(q);
-
-          }
-
-
-          return (
-            lookingText.includes(q) ||
-            offeringText.includes(q)
-          );
+          return true;
 
         }
-      );
+
+
+        if (
+          selectedMode ===
+          "looking"
+        ) {
+
+          return lookingText
+            .includes(q);
+
+        }
+
+
+        if (
+          selectedMode ===
+          "offering"
+        ) {
+
+          return offeringText
+            .includes(q);
+
+        }
+
+
+        return (
+          lookingText.includes(q) ||
+          offeringText.includes(q)
+        );
+
+      });
 
 
     if (count) {
 
       count.textContent =
         list.length
-          ? `${list.length}명`
+          ? list.length + "명"
           : "";
 
     }
@@ -1294,51 +1288,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!list.length) {
 
-      cards.innerHTML = `
-
-        <div
-          class="empty"
-        >
-
-          <strong>
-
-            ${
-              trades.length
-                ? "조건에 맞는 교환 목록이 없습니다."
-                : "아직 등록된 교환 목록이 없습니다."
-            }
-
-          </strong>
+      let emptyHtml = "";
 
 
-          <span>
-
-            ${
-              trades.length
-                ? "검색 조건을 바꿔보세요."
-                : "첫 번째 교환 목록을 등록해 보세요."
-            }
-
-          </span>
+      emptyHtml +=
+        "<div class=\"empty\">";
 
 
-          ${
-            !trades.length
-              ? `
-                <br>
+      emptyHtml +=
+        "<strong>";
 
-                <button
-                  id="emptyRegister"
-                >
-                  교환 목록 등록하기
-                </button>
-              `
-              : ""
-          }
 
-        </div>
+      emptyHtml +=
+        trades.length
+          ? "조건에 맞는 교환 목록이 없습니다."
+          : "아직 등록된 교환 목록이 없습니다.";
 
-      `;
+
+      emptyHtml +=
+        "</strong>";
+
+
+      emptyHtml +=
+        "<span>";
+
+
+      emptyHtml +=
+        trades.length
+          ? "검색 조건을 바꿔보세요."
+          : "첫 번째 교환 목록을 등록해 보세요.";
+
+
+      emptyHtml +=
+        "</span>";
+
+
+      if (!trades.length) {
+
+        emptyHtml +=
+          "<br>" +
+          "<button id=\"emptyRegister\">" +
+          "교환 목록 등록하기" +
+          "</button>";
+
+      }
+
+
+      emptyHtml +=
+        "</div>";
+
+
+      cards.innerHTML =
+        emptyHtml;
 
 
       const emptyButton =
@@ -1358,140 +1359,108 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    cards.innerHTML = `
+    let html = "";
 
-      <div
-        class="grid"
-      >
 
-        ${list
+    html +=
+      "<div class=\"grid\">";
 
+
+    list.forEach(function(trade) {
+
+      const index =
+        trades.indexOf(
+          trade
+        );
+
+
+      const looking =
+        (
+          trade.looking ||
+          []
+        )
           .map(
-            trade => {
-
-              const index =
-                trades.indexOf(
-                  trade
-                );
+            normalizePokemon
+          );
 
 
-              const looking =
-                (
-                  trade.looking ||
-                  []
-                )
-                  .map(
-                    normalizePokemon
-                  );
+      const offering =
+        (
+          trade.offering ||
+          []
+        )
+          .map(
+            normalizePokemon
+          );
 
 
-              const offering =
-                (
-                  trade.offering ||
-                  []
-                )
-                  .map(
-                    normalizePokemon
-                  );
+      html +=
+        "<article class=\"card\">" +
+
+          "<div class=\"top\">" +
+
+            "<span class=\"name\">" +
+              escapeHtml(
+                trade.name ||
+                "이름 없음"
+              ) +
+            "</span>" +
+
+          "</div>" +
+
+          "<div class=\"label\">" +
+            "찾는 포켓몬 · " +
+            looking.length +
+          "</div>" +
+
+          "<div class=\"chips\">" +
+            chips(
+              looking
+            ) +
+          "</div>" +
+
+          "<div class=\"label\">" +
+            "제공 포켓몬 · " +
+            offering.length +
+          "</div>" +
+
+          "<div class=\"chips\">" +
+            chips(
+              offering
+            ) +
+          "</div>" +
+
+          "<div class=\"cardButtons\">" +
+
+            "<button " +
+              "class=\"request\" " +
+              "data-index=\"" +
+                index +
+              "\">" +
+              "교환 신청" +
+            "</button>" +
+
+            "<button " +
+              "class=\"deleteTrade\" " +
+              "data-index=\"" +
+                index +
+              "\">" +
+              "삭제" +
+            "</button>" +
+
+          "</div>" +
+
+        "</article>";
+
+    });
 
 
-              return `
-
-                <article
-                  class="card"
-                >
-
-                  <div
-                    class="top"
-                  >
-
-                    <span
-                      class="name"
-                    >
-                      ${escapeHtml(
-                        trade.name ||
-                        "이름 없음"
-                      )}
-                    </span>
-
-                  </div>
+    html +=
+      "</div>";
 
 
-                  <div
-                    class="label"
-                  >
-
-                    찾는 포켓몬 ·
-                    ${looking.length}
-
-                  </div>
-
-
-                  <div
-                    class="chips"
-                  >
-
-                    ${chips(
-                      looking
-                    )}
-
-                  </div>
-
-
-                  <div
-                    class="label"
-                  >
-
-                    제공 포켓몬 ·
-                    ${offering.length}
-
-                  </div>
-
-
-                  <div
-                    class="chips"
-                  >
-
-                    ${chips(
-                      offering
-                    )}
-
-                  </div>
-
-
-                  <div
-                    class="cardButtons"
-                  >
-
-                    <button
-                      class="request"
-                      data-index="${index}"
-                    >
-                      교환 신청
-                    </button>
-
-
-                    <button
-                      class="deleteTrade"
-                      data-index="${index}"
-                    >
-                      삭제
-                    </button>
-
-                  </div>
-
-                </article>
-
-              `;
-
-            }
-          )
-
-          .join("")}
-
-      </div>
-
-    `;
+    cards.innerHTML =
+      html;
 
 
     // =======================================================
@@ -1502,36 +1471,33 @@ document.addEventListener("DOMContentLoaded", () => {
       .querySelectorAll(
         ".request"
       )
+      .forEach(function(button) {
 
-      .forEach(
-        button => {
+        button.onclick =
+          function() {
 
-          button.onclick =
-            () => {
-
-              const index =
-                Number(
-                  button.dataset.index
-                );
-
-
-              if (
-                !trades[index]
-              ) {
-
-                return;
-
-              }
-
-
-              requestTrade(
-                trades[index].name
+            const index =
+              Number(
+                button.dataset.index
               );
 
-            };
 
-        }
-      );
+            if (
+              !trades[index]
+            ) {
+
+              return;
+
+            }
+
+
+            requestTrade(
+              trades[index].name
+            );
+
+          };
+
+      });
 
 
     // =======================================================
@@ -1542,27 +1508,24 @@ document.addEventListener("DOMContentLoaded", () => {
       .querySelectorAll(
         ".deleteTrade"
       )
+      .forEach(function(button) {
 
-      .forEach(
-        button => {
+        button.onclick =
+          function() {
 
-          button.onclick =
-            () => {
-
-              const index =
-                Number(
-                  button.dataset.index
-                );
-
-
-              deleteTrade(
-                index
+            const index =
+              Number(
+                button.dataset.index
               );
 
-            };
 
-        }
-      );
+            deleteTrade(
+              index
+            );
+
+          };
+
+      });
 
   }
 
@@ -1576,8 +1539,9 @@ document.addEventListener("DOMContentLoaded", () => {
   ) {
 
     alert(
-      `${name}님에게 교환 신청을 보내는 기능입니다.\n\n` +
-      `현재는 테스트 버전이라 실제 전송은 아직 연결되지 않았습니다.`
+      name +
+      "님에게 교환 신청을 보내는 기능입니다.\n\n" +
+      "현재는 테스트 버전이라 실제 전송은 아직 연결되지 않았습니다."
     );
 
   }
@@ -1604,8 +1568,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const confirmed =
       confirm(
-        `"${trade.name}"님의 교환 목록을 삭제하시겠습니까?\n\n` +
-        `삭제하면 다시 복구할 수 없습니다.`
+        "\"" +
+        trade.name +
+        "\"님의 교환 목록을 삭제하시겠습니까?\n\n" +
+        "삭제하면 다시 복구할 수 없습니다."
       );
 
 
@@ -1631,9 +1597,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    const {
-      error
-    } =
+    const result =
       await supabaseClient
 
         .from("trades")
@@ -1644,6 +1608,10 @@ document.addEventListener("DOMContentLoaded", () => {
           "id",
           trade.id
         );
+
+
+    const error =
+      result.error;
 
 
     if (error) {
@@ -1751,7 +1719,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("modal")) {
 
     $("modal").onclick =
-      event => {
+      function(event) {
 
         if (
           event.target ===
@@ -1776,7 +1744,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("lookingSearch")
       .addEventListener(
         "input",
-        () => {
+        function() {
 
           showPokemonChoices(
             "lookingSearch",
@@ -1798,7 +1766,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("offeringSearch")
       .addEventListener(
         "input",
-        () => {
+        function() {
 
           showPokemonChoices(
             "offeringSearch",
@@ -1818,7 +1786,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("save")) {
 
     $("save").onclick =
-      async () => {
+      async function() {
 
         const name =
           $("name")
@@ -1858,15 +1826,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const newTrade = {
 
           name:
-
             name,
 
           looking:
-
             [...lookingPokemonList],
 
           offering:
-
             [...offeringPokemonList]
 
         };
@@ -1882,10 +1847,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Supabase INSERT
         // ---------------------------------------------------
 
-        const {
-          data,
-          error
-        } =
+        const result =
           await supabaseClient
 
             .from("trades")
@@ -1895,6 +1857,13 @@ document.addEventListener("DOMContentLoaded", () => {
             )
 
             .select();
+
+
+        const data =
+          result.data;
+
+        const error =
+          result.error;
 
 
         if (error) {
@@ -2048,7 +2017,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if ($("reset")) {
 
     $("reset").onclick =
-      () => {
+      function() {
 
         $("search").value =
           "";
