@@ -1324,6 +1324,10 @@ async function requestTrade(trade) {
     "님에게 교환 신청을 보냈습니다.\n\n" +
     "채팅방이 생성되었습니다."
   );
+  openChat(
+  result.data.id,
+  name
+);
 
   console.log(
     "채팅방 생성 성공:",
