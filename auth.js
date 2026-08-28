@@ -35,6 +35,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     console.log("익명 사용자 로그인 성공");
 
+    localStorage.setItem(
+  "pogo_user_id",
+  signInResult.data.user.id
+);
   } else {
 
     console.log("기존 익명 사용자 세션 확인");
