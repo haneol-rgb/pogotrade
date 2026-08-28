@@ -1329,6 +1329,17 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    if (
+  !result.data ||
+  result.data.length === 0
+) {
+
+  alert(
+    "이 교환 목록을 삭제할 권한이 없습니다."
+  );
+
+  return;
+}
 
     trades.splice(index, 1);
 
