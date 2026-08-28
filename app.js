@@ -1244,21 +1244,93 @@ document.addEventListener("DOMContentLoaded", function () {
      교환 신청
   ========================================================= */
 
-  function requestTrade(trade) {
+async function requestTrade(trade) {
 
-    var name =
-      trade.username ||
-      trade.name ||
-      "트레이너";
+  var name =
+    trade.username ||
+    trade.name ||
+    "트레이너";
 
+  var buyerId =
+    localStorage.getItem("pogo_user_id");
+
+  var sellerId =
+    trade.user_id;
+
+  if (!buyerId) {
 
     alert(
-      name +
-      "님에게 교환 신청을 보내는 기능입니다.\n\n" +
-      "현재는 테스트 버전이라 실제 전송은 아직 연결되지 않았습니다."
+      "사용자 인증 정보를 찾을 수 없습니다."
     );
 
+    return;
   }
+
+  if (!sellerId) {
+
+    alert(
+      "이 교환 목록에는 게시자 정보가 없습니다."
+    );
+
+    return;
+  }
+
+  if (buyerId === sellerId) {
+
+    alert(
+      "자신의 교환 목록에는 교환 신청을 할 수 없습니다."
+    );
+
+    return;
+  }
+
+  if (!trade.id) {
+
+    alert(
+      "이 교환 목록의 ID를 찾을 수 없습니다."
+    );
+
+    return;
+  }
+
+  var result =
+    await supabaseClient
+      .from("chat_rooms")
+      .insert({
+        trade_id: trade.id,
+        seller_id: sellerId,
+        buyer_id: buyerId
+      })
+      .select()
+      .single();
+
+  if (result.error) {
+
+    console.error(
+      "채팅방 생성 실패:",
+      result.error
+    );
+
+    alert(
+      "채팅방을 만들지 못했습니다.\n\n" +
+      result.error.message
+    );
+
+    return;
+  }
+
+  alert(
+    name +
+    "님에게 교환 신청을 보냈습니다.\n\n" +
+    "채팅방이 생성되었습니다."
+  );
+
+  console.log(
+    "채팅방 생성 성공:",
+    result.data
+  );
+
+}
 
 
   /* =========================================================
