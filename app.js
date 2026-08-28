@@ -2082,6 +2082,18 @@ function openChat(roomId, trainerName, trade) {
       trainerName || "교환 채팅";
   }
 
+   if (title) {
+    title.textContent =
+      trainerName || "교환 채팅";
+  }
+
+    loadChatMessages(roomId);
+  
+  modal.style.display =
+    "block";
+
+}
+
     loadChatMessages(roomId);
   
   modal.style.display =
