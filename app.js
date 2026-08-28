@@ -1426,7 +1426,9 @@ var userHighId =
       .insert({
         trade_id: trade.id,
         seller_id: sellerId,
-        buyer_id: buyerId
+        buyer_id: buyerId,
+        user_low_id: userLowId,
+        user_high_id: userHihgId
       })
       .select()
       .single();
