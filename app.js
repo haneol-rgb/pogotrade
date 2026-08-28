@@ -2114,17 +2114,6 @@ function openChat(roomId, trainerName, trade) {
     "block";
 
 }  
-  modal.style.display =
-    "block";
-
-}
-
-    loadChatMessages(roomId);
-  
-  modal.style.display =
-    "block";
-
-}
 
 document.addEventListener(
   "click",
