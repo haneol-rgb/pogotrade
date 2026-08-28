@@ -1542,6 +1542,9 @@ document.addEventListener("DOMContentLoaded", function () {
           username:
             name,
 
+          user_id:
+            localStorage.getItem("pogo_user_id"),
+          
           offering:
             offeringPokemonList,
 
