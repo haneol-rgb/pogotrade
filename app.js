@@ -1310,7 +1310,8 @@ document.addEventListener("DOMContentLoaded", function () {
       await supabaseClient
         .from("trades")
         .delete()
-        .eq("id", trade.id);
+        .eq("id", trade.id)
+        .select();
 
 
     if (result.error) {
