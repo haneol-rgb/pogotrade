@@ -1869,6 +1869,11 @@ async function requestTrade(trade) {
 var currentChatRoomId = null;
 
 function openChat(roomId, trainerName) {
+  console.log(
+  "채팅창 열기:",
+  roomId,
+  trainerName
+);
 
   currentChatRoomId =
     roomId;
