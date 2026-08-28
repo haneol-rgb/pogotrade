@@ -1898,41 +1898,54 @@ function openChat(roomId, trainerName) {
 
 }
 document
-  .getElementById("closeChat")
-  .addEventListener("click", function () {
+document.addEventListener(
+  "click",
+  function (event) {
 
-    var modal =
-      document.getElementById("chatModal");
+    if (
+      event.target &&
+      event.target.id === "closeChat"
+    ) {
 
-    if (modal) {
-      modal.style.display = "none";
-    }
+      var modal =
+        document.getElementById("chatModal");
 
-    currentChatRoomId = null;
+      if (modal) {
+        modal.style.display = "none";
+      }
 
-  });
-document
-  .getElementById("sendChat")
-  .addEventListener("click", function () {
+      currentChatRoomId = null;
 
-    var input =
-      document.getElementById("chatInput");
-
-    if (!input) {
       return;
     }
 
-    var message =
-      input.value.trim();
 
-    if (!message) {
-      return;
+    if (
+      event.target &&
+      event.target.id === "sendChat"
+    ) {
+
+      var input =
+        document.getElementById("chatInput");
+
+      if (!input) {
+        return;
+      }
+
+      var message =
+        input.value.trim();
+
+      if (!message) {
+        return;
+      }
+
+      console.log(
+        "메시지 전송 테스트:",
+        currentChatRoomId,
+        message
+      );
+
     }
 
-    console.log(
-      "메시지 전송 테스트:",
-      currentChatRoomId,
-      message
-    );
-
-  });
+  }
+);
