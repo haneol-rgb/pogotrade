@@ -41,6 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
       SUPABASE_URL,
       SUPABASE_KEY
     );
+
+  window.supabaseClient = supabaseClient;
+  
   document.addEventListener(
   "click",
   async function (event) {
