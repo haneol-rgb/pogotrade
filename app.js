@@ -1938,6 +1938,55 @@ async function requestTrade(trade) {
 });
 var currentChatRoomId = null;
 
+async function loadChatMessages(roomId) {
+
+  var result =
+    await supabaseClient
+      .from("chat_messages")
+      .select("*")
+      .eq("room_id", roomId)
+      .order("created_at", {
+        ascending: true
+      });
+
+  if (result.error) {
+
+    console.error(
+      "메시지 불러오기 실패:",
+      result.error
+    );
+
+    return;
+  }
+
+  var messages =
+    result.data || [];
+
+  var container =
+    document.getElementById("chatMessages");
+
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = "";
+
+  messages.forEach(function (item) {
+
+    var messageElement =
+      document.createElement("div");
+
+    messageElement.textContent =
+      item.message;
+
+    container.appendChild(
+      messageElement
+    );
+
+  });
+
+}
+
 function openChat(roomId, trainerName) {
   console.log(
   "채팅창 열기:",
