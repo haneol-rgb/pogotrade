@@ -1965,6 +1965,11 @@ async function loadChatMessages(roomId) {
   var messages =
     result.data || [];
 
+  console.log(
+  "불러온 채팅 메시지:",
+  result.data
+);
+
   var container =
     document.getElementById("chatMessages");
 
